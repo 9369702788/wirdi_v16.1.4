@@ -1,0 +1,617 @@
+class AsmaName {
+  final int number;
+  final String arabic;
+  final String transliteration;
+  final Map<String, String> _meaningByLocale;
+  const AsmaName(this.number, this.arabic, this.transliteration, this._meaningByLocale);
+
+  /// Meaning/gloss of the Name in the given language. The Arabic name
+  /// itself and its transliteration are not translated (like the Quran
+  /// text, they stay as-is across locales) -- only the explanatory
+  /// meaning changes per language. Falls back to English, then Arabic.
+  String meaningFor(String languageCode) =>
+      _meaningByLocale[languageCode] ?? _meaningByLocale['en'] ?? _meaningByLocale['ar']!;
+}
+
+/// The 99 Names of Allah (Asma-ul-Husna), the widely-used standard list
+/// and ordering (as commonly printed in mus'hafs and reference books).
+class AsmaUlHusna {
+  AsmaUlHusna._();
+
+  static const List<AsmaName> all = [
+    AsmaName(1, 'الرَّحْمَٰن', 'Ar-Rahman', {
+      'ar': 'الرحيم بجميع الخلق',
+      'en': 'The Most Merciful (to all creation)',
+      'de': 'Der Allerbarmer (zu aller Schöpfung)',
+      'tr': 'Bütün yaratılmışlara merhamet eden',
+    }),
+    AsmaName(2, 'الرَّحِيم', 'Ar-Raheem', {
+      'ar': 'الرحيم بالمؤمنين خاصة',
+      'en': 'The Especially Merciful (to believers)',
+      'de': 'Der Gnädige (besonders zu den Gläubigen)',
+      'tr': 'Müminlere özellikle merhamet eden',
+    }),
+    AsmaName(3, 'الْمَلِك', 'Al-Malik', {
+      'ar': 'المالك المتصرف في كل شيء',
+      'en': 'The King, the Sovereign',
+      'de': 'Der König, der Herrscher über alles',
+      'tr': 'Her şeyin mutlak sahibi olan Hükümdar',
+    }),
+    AsmaName(4, 'الْقُدُّوس', 'Al-Quddus', {
+      'ar': 'المنزّه عن كل نقص',
+      'en': 'The Most Holy, free of all imperfection',
+      'de': 'Der Heilige, frei von jedem Mangel',
+      'tr': 'Her türlü eksiklikten münezzeh olan',
+    }),
+    AsmaName(5, 'السَّلَام', 'As-Salam', {
+      'ar': 'السالم من كل عيب ونقص',
+      'en': 'The Source of Peace, free from all flaws',
+      'de': 'Der Frieden, frei von jedem Fehler',
+      'tr': 'Her türlü kusurdan salim olan, Selamet veren',
+    }),
+    AsmaName(6, 'الْمُؤْمِن', 'Al-Mu\'min', {
+      'ar': 'المصدّق لرسله بالمعجزات، المؤمّن لعباده',
+      'en': 'The Granter of Security and Faith',
+      'de': 'Der Gewährer von Sicherheit und Glauben',
+      'tr': 'Güven ve iman veren',
+    }),
+    AsmaName(7, 'الْمُهَيْمِن', 'Al-Muhaymin', {
+      'ar': 'الرقيب الحافظ لكل شيء',
+      'en': 'The Guardian, the Overseer of all things',
+      'de': 'Der Wächter und Beschützer aller Dinge',
+      'tr': 'Her şeyi gözetip koruyan',
+    }),
+    AsmaName(8, 'الْعَزِيز', 'Al-Aziz', {
+      'ar': 'الغالب القوي الذي لا يُغلب',
+      'en': 'The Almighty, the Invincible',
+      'de': 'Der Allmächtige, der Unbesiegbare',
+      'tr': 'Karşı konulmaz güçte, Aziz olan',
+    }),
+    AsmaName(9, 'الْجَبَّار', 'Al-Jabbar', {
+      'ar': 'الذي يجبر الضعيف ويقهر الجبابرة',
+      'en': 'The Compeller, who mends the weak and subdues tyrants',
+      'de': 'Der Bezwinger, der die Schwachen aufrichtet und Tyrannen bezwingt',
+      'tr': 'Zayıfı onarıp zorbaları kahreden',
+    }),
+    AsmaName(10, 'الْمُتَكَبِّر', 'Al-Mutakabbir', {
+      'ar': 'المتعالي عن صفات الخلق',
+      'en': 'The Supremely Great, above all creation\'s attributes',
+      'de': 'Der Erhabene, über alle Eigenschaften der Schöpfung',
+      'tr': 'Yaratılmışların sıfatlarından münezzeh, Ulu olan',
+    }),
+    AsmaName(11, 'الْخَالِق', 'Al-Khaliq', {
+      'ar': 'موجد الأشياء من العدم',
+      'en': 'The Creator, who brings things into being from nothing',
+      'de': 'Der Schöpfer, der alles aus dem Nichts erschafft',
+      'tr': 'Her şeyi yoktan var eden Yaratıcı',
+    }),
+    AsmaName(12, 'الْبَارِئ', 'Al-Bari\'', {
+      'ar': 'الذي أوجد الخلق بلا مثال سابق',
+      'en': 'The Originator, who fashions creation without precedent',
+      'de': 'Der Urheber, der die Schöpfung ohne Vorbild erschafft',
+      'tr': 'Yaratılmışları örneksiz var eden',
+    }),
+    AsmaName(13, 'الْمُصَوِّر', 'Al-Musawwir', {
+      'ar': 'الذي صوّر جميع المخلوقات',
+      'en': 'The Fashioner, who shapes every creation',
+      'de': 'Der Gestalter, der jedes Geschöpf formt',
+      'tr': 'Bütün varlıklara şekil ve suret veren',
+    }),
+    AsmaName(14, 'الْغَفَّار', 'Al-Ghaffar', {
+      'ar': 'كثير المغفرة لعباده',
+      'en': 'The Ever-Forgiving',
+      'de': 'Der Allvergebende',
+      'tr': 'Kullarını çokça bağışlayan',
+    }),
+    AsmaName(15, 'الْقَهَّار', 'Al-Qahhar', {
+      'ar': 'الغالب لكل شيء القاهر لكل مخلوق',
+      'en': 'The All-Subduer, dominant over all creation',
+      'de': 'Der Allbezwinger, der über alle Schöpfung herrscht',
+      'tr': 'Her şeye galip ve kahredici olan',
+    }),
+    AsmaName(16, 'الْوَهَّاب', 'Al-Wahhab', {
+      'ar': 'كثير العطاء بلا مقابل',
+      'en': 'The Bestower, who gives generously without expecting return',
+      'de': 'Der Freigebige, der ohne Gegenleistung schenkt',
+      'tr': 'Karşılıksız çok bağışta bulunan',
+    }),
+    AsmaName(17, 'الرَّزَّاق', 'Ar-Razzaq', {
+      'ar': 'الذي يرزق جميع خلقه',
+      'en': 'The Provider, who sustains all His creation',
+      'de': 'Der Versorger, der alle Seine Geschöpfe versorgt',
+      'tr': 'Bütün yaratılmışları rızıklandıran',
+    }),
+    AsmaName(18, 'الْفَتَّاح', 'Al-Fattah', {
+      'ar': 'الذي يفتح أبواب الرحمة والرزق',
+      'en': 'The Opener, who opens the doors of mercy and provision',
+      'de': 'Der Eröffner, der die Tore der Barmherzigkeit und Versorgung öffnet',
+      'tr': 'Rahmet ve rızık kapılarını açan',
+    }),
+    AsmaName(19, 'اَلْعَلِيْم', 'Al-Alim', {
+      'ar': 'المحيط علمه بكل شيء',
+      'en': 'The All-Knowing, whose knowledge encompasses everything',
+      'de': 'Der Allwissende, dessen Wissen alles umfasst',
+      'tr': 'İlmi her şeyi kuşatan',
+    }),
+    AsmaName(20, 'الْقَابِض', 'Al-Qabid', {
+      'ar': 'الذي يقبض الأرزاق بحكمته',
+      'en': 'The Withholder, who restrains provision with wisdom',
+      'de': 'Der Zurückhaltende, der Versorgung mit Weisheit einschränkt',
+      'tr': 'Hikmetiyle rızkı daraltan',
+    }),
+    AsmaName(21, 'الْبَاسِط', 'Al-Basit', {
+      'ar': 'الذي يبسط الرزق بفضله',
+      'en': 'The Extender, who expands provision by His grace',
+      'de': 'Der Ausdehnende, der Versorgung durch Seine Gnade erweitert',
+      'tr': 'Lütfuyla rızkı genişleten',
+    }),
+    AsmaName(22, 'الْخَافِض', 'Al-Khafid', {
+      'ar': 'الذي يخفض من يشاء بعدله',
+      'en': 'The Abaser, who lowers whom He wills with justice',
+      'de': 'Der Erniedrigende, der mit Gerechtigkeit erniedrigt, wen Er will',
+      'tr': 'Adaletiyle dilediğini alçaltan',
+    }),
+    AsmaName(23, 'الرَّافِع', 'Ar-Rafi\'', {
+      'ar': 'الذي يرفع من يشاء بفضله',
+      'en': 'The Exalter, who raises whom He wills by His grace',
+      'de': 'Der Erhöhende, der aus Gnade erhöht, wen Er will',
+      'tr': 'Lütfuyla dilediğini yücelten',
+    }),
+    AsmaName(24, 'الْمُعِزّ', 'Al-Mu\'izz', {
+      'ar': 'الذي يهب العزة لمن يشاء',
+      'en': 'The Honourer, who grants honour to whom He wills',
+      'de': 'Der Ehrende, der Ehre gewährt, wem Er will',
+      'tr': 'Dilediğine izzet veren',
+    }),
+    AsmaName(25, 'المُذِلّ', 'Al-Muzil', {
+      'ar': 'الذي يهب الذلة لمن يشاء',
+      'en': 'The Humiliator, who withholds honour from whom He wills',
+      'de': 'Der Erniedrigende, der Ehre entzieht, wem Er will',
+      'tr': 'Dilediğini zillete düşüren',
+    }),
+    AsmaName(26, 'السَّمِيع', 'As-Sami\'', {
+      'ar': 'الذي يسمع كل شيء',
+      'en': 'The All-Hearing',
+      'de': 'Der Allhörende',
+      'tr': 'Her şeyi işiten',
+    }),
+    AsmaName(27, 'الْبَصِير', 'Al-Basir', {
+      'ar': 'الذي يبصر كل شيء',
+      'en': 'The All-Seeing',
+      'de': 'Der Allsehende',
+      'tr': 'Her şeyi gören',
+    }),
+    AsmaName(28, 'الْحَكَم', 'Al-Hakam', {
+      'ar': 'الحاكم بالعدل بين خلقه',
+      'en': 'The Judge, who rules with justice among His creation',
+      'de': 'Der Richter, der gerecht zwischen Seinen Geschöpfen urteilt',
+      'tr': 'Yarattıkları arasında adaletle hükmeden',
+    }),
+    AsmaName(29, 'الْعَدْل', 'Al-Adl', {
+      'ar': 'العادل الذي لا يظلم أحدًا',
+      'en': 'The Utterly Just, who wrongs no one',
+      'de': 'Der Gerechte, der niemandem Unrecht tut',
+      'tr': 'Kimseye zulmetmeyen, mutlak adil olan',
+    }),
+    AsmaName(30, 'اللَّطِيف', 'Al-Latif', {
+      'ar': 'الرفيق بعباده العليم بدقائق الأمور',
+      'en': 'The Subtle, Most Gentle, aware of the finest details',
+      'de': 'Der Feinfühlige, Sanftmütige, der die feinsten Einzelheiten kennt',
+      'tr': 'Kullarına lütufkâr, en ince ayrıntıları bilen',
+    }),
+    AsmaName(31, 'الْخَبِير', 'Al-Khabir', {
+      'ar': 'العليم ببواطن الأمور',
+      'en': 'The All-Aware, informed of hidden matters',
+      'de': 'Der Allkundige, der das Verborgene kennt',
+      'tr': 'Gizli olan her şeyden haberdar olan',
+    }),
+    AsmaName(32, 'الْحَلِيم', 'Al-Halim', {
+      'ar': 'الذي لا يعاجل بالعقوبة',
+      'en': 'The Forbearing, who does not rush to punish',
+      'de': 'Der Nachsichtige, der nicht vorschnell bestraft',
+      'tr': 'Cezalandırmakta acele etmeyen, halim olan',
+    }),
+    AsmaName(33, 'الْعَظِيم', 'Al-Azim', {
+      'ar': 'العظيم في ذاته وصفاته',
+      'en': 'The Magnificent, great in essence and attributes',
+      'de': 'Der Erhabene, groß in Wesen und Eigenschaften',
+      'tr': 'Zatı ve sıfatlarıyla azametli olan',
+    }),
+    AsmaName(34, 'الْغَفُور', 'Al-Ghafur', {
+      'ar': 'الساتر لذنوب عباده',
+      'en': 'The All-Forgiving, who conceals His servants\' sins',
+      'de': 'Der Allverzeihende, der die Sünden Seiner Diener verbirgt',
+      'tr': 'Kullarının günahlarını örten',
+    }),
+    AsmaName(35, 'الشَّكُور', 'Ash-Shakur', {
+      'ar': 'الذي يجازي على القليل بالكثير',
+      'en': 'The Most Appreciative, who rewards little deeds greatly',
+      'de': 'Der Dankbare, der wenig Gutes reichlich belohnt',
+      'tr': 'Az amele çok mükâfat veren',
+    }),
+    AsmaName(36, 'الْعَلِيّ', 'Al-Ali', {
+      'ar': 'العالي فوق خلقه بذاته وقدره',
+      'en': 'The Most High, exalted above His creation',
+      'de': 'Der Erhabene, hoch über Seiner Schöpfung',
+      'tr': 'Zatı ve kadriyle yaratılmışların üstünde olan',
+    }),
+    AsmaName(37, 'الْكَبِير', 'Al-Kabir', {
+      'ar': 'الأكبر من كل شيء',
+      'en': 'The Greatest, greater than all things',
+      'de': 'Der Größte, größer als alles',
+      'tr': 'Her şeyden büyük olan',
+    }),
+    AsmaName(38, 'الْحَفِيظ', 'Al-Hafiz', {
+      'ar': 'الحافظ لكل شيء',
+      'en': 'The Preserver, who guards all things',
+      'de': 'Der Bewahrer, der alles behütet',
+      'tr': 'Her şeyi koruyup gözeten',
+    }),
+    AsmaName(39, 'المُقِيت', 'Al-Muqit', {
+      'ar': 'الذي يعطي أقوات خلقه',
+      'en': 'The Sustainer, who provides nourishment to His creation',
+      'de': 'Der Ernährer, der Seiner Schöpfung Nahrung gibt',
+      'tr': 'Yarattıklarının rızkını veren',
+    }),
+    AsmaName(40, 'الْحسِيب', 'Al-Hasib', {
+      'ar': 'الكافي عباده، المحاسب لهم',
+      'en': 'The Reckoner, sufficient for and accountable to His servants',
+      'de': 'Der Berechner, der genügt und Rechenschaft fordert',
+      'tr': 'Kullarına yeten ve onları hesaba çeken',
+    }),
+    AsmaName(41, 'الْجَلِيل', 'Al-Jalil', {
+      'ar': 'العظيم ذو الجلال',
+      'en': 'The Majestic, possessor of grandeur',
+      'de': 'Der Majestätische, Besitzer der Erhabenheit',
+      'tr': 'Yücelik ve azamet sahibi',
+    }),
+    AsmaName(42, 'الْكَرِيم', 'Al-Karim', {
+      'ar': 'كثير الخير والعطاء',
+      'en': 'The Most Generous',
+      'de': 'Der Großzügige',
+      'tr': 'Cömertliği ve ihsanı bol olan',
+    }),
+    AsmaName(43, 'الرَّقِيب', 'Ar-Raqib', {
+      'ar': 'المطّلع على خلقه لا يغيب عنه شيء',
+      'en': 'The Watchful, from whom nothing is hidden',
+      'de': 'Der Wachsame, dem nichts verborgen bleibt',
+      'tr': 'Yarattıklarını gözetleyen, hiçbir şey kendisinden gizli kalmayan',
+    }),
+    AsmaName(44, 'الْمُجِيب', 'Al-Mujib', {
+      'ar': 'الذي يجيب دعوة الداعي',
+      'en': 'The Responsive, who answers the call of the one who prays',
+      'de': 'Der Erhörer, der das Bittgebet erhört',
+      'tr': 'Dua edenin duasına icabet eden',
+    }),
+    AsmaName(45, 'الْوَاسِع', 'Al-Wasi\'', {
+      'ar': 'الواسع الرحمة والعلم والفضل',
+      'en': 'The All-Encompassing, vast in mercy, knowledge and grace',
+      'de': 'Der Allumfassende, weit in Barmherzigkeit, Wissen und Gnade',
+      'tr': 'Rahmeti, ilmi ve lütfu geniş olan',
+    }),
+    AsmaName(46, 'الْحَكِيم', 'Al-Hakim', {
+      'ar': 'الحكيم في تدبيره وأمره',
+      'en': 'The All-Wise, wise in His decree and command',
+      'de': 'Der Allweise, weise in Seiner Führung und Anordnung',
+      'tr': 'Tedbir ve emrinde hikmet sahibi olan',
+    }),
+    AsmaName(47, 'الْوَدُود', 'Al-Wadud', {
+      'ar': 'المحب لأوليائه، المحبوب في قلوبهم',
+      'en': 'The Most Loving, beloved and loving toward His devoted',
+      'de': 'Der Liebevolle, geliebt von und liebend zu Seinen Nahestehenden',
+      'tr': 'Dostlarını seven ve onlar tarafından sevilen',
+    }),
+    AsmaName(48, 'الْمَجِيد', 'Al-Majid', {
+      'ar': 'العظيم الكريم واسع الفضل',
+      'en': 'The All-Glorious, magnificent and generous',
+      'de': 'Der Ruhmreiche, erhaben und großzügig',
+      'tr': 'Şanı yüce, keremi bol olan',
+    }),
+    AsmaName(49, 'الْبَاعِث', 'Al-Ba\'ith', {
+      'ar': 'الذي يبعث الخلق يوم القيامة',
+      'en': 'The Resurrector, who raises creation on the Day of Judgment',
+      'de': 'Der Erwecker, der die Schöpfung am Jüngsten Tag erweckt',
+      'tr': 'Kıyamet günü yaratılmışları dirilten',
+    }),
+    AsmaName(50, 'الشَّهِيد', 'Ash-Shahid', {
+      'ar': 'المطّلع الذي لا يغيب عنه شيء',
+      'en': 'The All-Witnessing, from whom nothing is absent',
+      'de': 'Der Allgegenwärtige Zeuge, dem nichts entgeht',
+      'tr': 'Hiçbir şeyin kendisinden gizli kalmadığı, her şeye şahit olan',
+    }),
+    AsmaName(51, 'الْحَقّ', 'Al-Haqq', {
+      'ar': 'الثابت الذي لا يزول',
+      'en': 'The Truth, the constant that never fades',
+      'de': 'Die Wahrheit, das Beständige, das nicht vergeht',
+      'tr': 'Varlığı sabit olan, hiç değişmeyen Hak',
+    }),
+    AsmaName(52, 'الْوَكِيل', 'Al-Wakil', {
+      'ar': 'الذي يتولى أمور عباده المتوكلين عليه',
+      'en': 'The Trustee, who manages the affairs of those who rely on Him',
+      'de': 'Der Sachwalter, der die Angelegenheiten Seiner Vertrauenden regelt',
+      'tr': 'Kendisine güvenenlerin işlerini üstlenen Vekil',
+    }),
+    AsmaName(53, 'الْقَوِيّ', 'Al-Qawiyy', {
+      'ar': 'كامل القوة والقدرة',
+      'en': 'The All-Strong, complete in strength and power',
+      'de': 'Der Allstarke, vollkommen in Kraft und Macht',
+      'tr': 'Kuvvet ve kudreti tam olan',
+    }),
+    AsmaName(54, 'الْمَتِين', 'Al-Matin', {
+      'ar': 'الشديد القوة الذي لا يلحقه ضعف',
+      'en': 'The Firm, whose strength knows no weakness',
+      'de': 'Der Feste, dessen Kraft nie schwächer wird',
+      'tr': 'Kudreti asla zayıflamayan, çok metin olan',
+    }),
+    AsmaName(55, 'الْوَلِيّ', 'Al-Waliyy', {
+      'ar': 'الناصر لأوليائه',
+      'en': 'The Protecting Friend, who helps those close to Him',
+      'de': 'Der Beschützende Freund, der Seinen Nahestehenden hilft',
+      'tr': 'Dostlarına yardım eden Veli',
+    }),
+    AsmaName(56, 'الْحَمِيد', 'Al-Hamid', {
+      'ar': 'المحمود في كل أفعاله',
+      'en': 'The Praiseworthy in all His actions',
+      'de': 'Der Lobenswerte in all Seinem Handeln',
+      'tr': 'Bütün fiillerinde övgüye layık olan',
+    }),
+    AsmaName(57, 'الْمُحْصِي', 'Al-Muhsi', {
+      'ar': 'الذي أحصى كل شيء عددًا',
+      'en': 'The Accounter, who has enumerated everything precisely',
+      'de': 'Der Erfasser, der alles genau gezählt hat',
+      'tr': 'Her şeyi tek tek sayıp tespit eden',
+    }),
+    AsmaName(58, 'الْمُبْدِئ', 'Al-Mubdi\'', {
+      'ar': 'الذي أنشأ الخلق ابتداءً',
+      'en': 'The Originator, who initiated creation from the start',
+      'de': 'Der Anfänger, der die Schöpfung erstmals hervorbrachte',
+      'tr': 'Yaratmayı ilk baştan başlatan',
+    }),
+    AsmaName(59, 'الْمُعِيد', 'Al-Mu\'id', {
+      'ar': 'الذي يعيد الخلق بعد الموت',
+      'en': 'The Restorer, who brings creation back after death',
+      'de': 'Der Wiederherbringer, der die Schöpfung nach dem Tod zurückbringt',
+      'tr': 'Ölümden sonra tekrar yaratan',
+    }),
+    AsmaName(60, 'الْمُحْيِي', 'Al-Muhyi', {
+      'ar': 'الذي يحيي الموتى',
+      'en': 'The Giver of Life, who revives the dead',
+      'de': 'Der Lebensspender, der die Toten wiederbelebt',
+      'tr': 'Ölülere hayat veren',
+    }),
+    AsmaName(61, 'اَلْمُمِيت', 'Al-Mumit', {
+      'ar': 'الذي يميت الأحياء',
+      'en': 'The Bringer of Death, who causes the living to die',
+      'de': 'Der Todbringer, der die Lebenden sterben lässt',
+      'tr': 'Canlıları öldüren',
+    }),
+    AsmaName(62, 'الْحَيّ', 'Al-Hayy', {
+      'ar': 'الحي الذي لا يموت',
+      'en': 'The Ever-Living, who never dies',
+      'de': 'Der Lebendige, der niemals stirbt',
+      'tr': 'Asla ölmeyen diri olan',
+    }),
+    AsmaName(63, 'الْقَيُّوم', 'Al-Qayyum', {
+      'ar': 'القائم بذاته المقيم لغيره',
+      'en': 'The Self-Subsisting, who sustains everything else',
+      'de': 'Der Selbstgenügsame, der alles andere erhält',
+      'tr': 'Kendi kendine kaim, her şeyi ayakta tutan',
+    }),
+    AsmaName(64, 'الْوَاجِد', 'Al-Wajid', {
+      'ar': 'الغني الذي لا يفتقر',
+      'en': 'The Finder, self-sufficient and never in need',
+      'de': 'Der Findende, unabhängig und niemals bedürftig',
+      'tr': 'Muhtaç olmayan, zengin olan',
+    }),
+    AsmaName(65, 'الْمَاجِد', 'Al-Majid', {
+      'ar': 'العظيم المجد الكريم',
+      'en': 'The Glorious, magnificent and noble',
+      'de': 'Der Ruhmvolle, erhaben und edel',
+      'tr': 'Şanı ve şerefi büyük olan',
+    }),
+    AsmaName(66, 'الْواحِد', 'Al-Wahid', {
+      'ar': 'الواحد الذي لا شريك له',
+      'en': 'The One, without any partner',
+      'de': 'Der Eine, ohne jeglichen Partner',
+      'tr': 'Ortağı olmayan tek olan',
+    }),
+    AsmaName(67, 'الاَحَد', 'Al-Ahad', {
+      'ar': 'المتفرد بذاته وصفاته',
+      'en': 'The Unique, singular in essence and attributes',
+      'de': 'Der Einzigartige, einmalig in Wesen und Eigenschaften',
+      'tr': 'Zatı ve sıfatlarıyla eşsiz olan',
+    }),
+    AsmaName(68, 'الصَّمَد', 'As-Samad', {
+      'ar': 'الذي يُقصد في الحوائج',
+      'en': 'The Eternal Refuge, sought for all needs',
+      'de': 'Die Ewige Zuflucht, an die man sich in Notlagen wendet',
+      'tr': 'İhtiyaçlarda kendisine yönelinen, Samed olan',
+    }),
+    AsmaName(69, 'الْقَادِر', 'Al-Qadir', {
+      'ar': 'القادر على كل شيء',
+      'en': 'The All-Capable, able to do all things',
+      'de': 'Der Allmächtige, fähig zu allem',
+      'tr': 'Her şeye gücü yeten',
+    }),
+    AsmaName(70, 'الْمُقْتَدِر', 'Al-Muqtadir', {
+      'ar': 'الكامل القدرة',
+      'en': 'The All-Determiner, complete in power',
+      'de': 'Der Allbestimmende, vollkommen in Macht',
+      'tr': 'Kudreti tam ve mükemmel olan',
+    }),
+    AsmaName(71, 'الْمُقَدِّم', 'Al-Muqaddim', {
+      'ar': 'الذي يقدّم من يشاء',
+      'en': 'The Expediter, who advances whom He wills',
+      'de': 'Der Voranstellende, der voranbringt, wen Er will',
+      'tr': 'Dilediğini öne geçiren',
+    }),
+    AsmaName(72, 'الْمُؤَخِّر', 'Al-Mu\'akhkhir', {
+      'ar': 'الذي يؤخّر من يشاء',
+      'en': 'The Delayer, who postpones whom He wills',
+      'de': 'Der Aufschiebende, der zurückstellt, wen Er will',
+      'tr': 'Dilediğini geri bırakan',
+    }),
+    AsmaName(73, 'الأوَّل', 'Al-Awwal', {
+      'ar': 'الذي ليس قبله شيء',
+      'en': 'The First, before whom nothing exists',
+      'de': 'Der Erste, vor dem nichts existiert',
+      'tr': 'Kendisinden önce hiçbir şey olmayan',
+    }),
+    AsmaName(74, 'الآخِر', 'Al-Akhir', {
+      'ar': 'الذي ليس بعده شيء',
+      'en': 'The Last, after whom nothing remains',
+      'de': 'Der Letzte, nach dem nichts bleibt',
+      'tr': 'Kendisinden sonra hiçbir şey olmayan',
+    }),
+    AsmaName(75, 'الظَّاهِر', 'Az-Zahir', {
+      'ar': 'الظاهر فوق كل شيء بقدرته',
+      'en': 'The Manifest, apparent above all things through His power',
+      'de': 'Der Offenbare, über allem sichtbar durch Seine Macht',
+      'tr': 'Kudretiyle her şeyin üstünde açıkça zahir olan',
+    }),
+    AsmaName(76, 'الْبَاطِن', 'Al-Batin', {
+      'ar': 'العالم بما بطن من الأمور',
+      'en': 'The Hidden, aware of what is concealed',
+      'de': 'Der Verborgene, kundig des Verdeckten',
+      'tr': 'Gizli olan her şeyi bilen',
+    }),
+    AsmaName(77, 'الْوَالِي', 'Al-Wali', {
+      'ar': 'المتولي لتدبير خلقه',
+      'en': 'The Governor, who manages the affairs of His creation',
+      'de': 'Der Verwalter, der die Angelegenheiten Seiner Schöpfung lenkt',
+      'tr': 'Yarattıklarının işlerini yöneten',
+    }),
+    AsmaName(78, 'الْمُتَعَالِي', 'Al-Muta\'ali', {
+      'ar': 'المتعالي عن صفات الخلق',
+      'en': 'The Most Exalted, above all attributes of creation',
+      'de': 'Der Höchsterhabene, über allen Eigenschaften der Schöpfung',
+      'tr': 'Yaratılmışların sıfatlarından yüce olan',
+    }),
+    AsmaName(79, 'الْبَرّ', 'Al-Barr', {
+      'ar': 'المحسن إلى خلقه',
+      'en': 'The Source of All Goodness toward His creation',
+      'de': 'Der Wohltäter gegenüber Seiner Schöpfung',
+      'tr': 'Yarattıklarına iyilik eden',
+    }),
+    AsmaName(80, 'التَّوَّاب', 'At-Tawwab', {
+      'ar': 'الذي يوفق عبده للتوبة ويقبلها',
+      'en': 'The Ever-Accepting of Repentance',
+      'de': 'Der Reue-Annehmende',
+      'tr': 'Kulunu tövbeye muvaffak kılıp kabul eden',
+    }),
+    AsmaName(81, 'الْمُنْتَقِم', 'Al-Muntaqim', {
+      'ar': 'الذي ينتقم من العصاة بعدله',
+      'en': 'The Avenger, who justly punishes wrongdoers',
+      'de': 'Der Vergelter, der Übeltäter gerecht bestraft',
+      'tr': 'Asilerden adaletle intikam alan',
+    }),
+    AsmaName(82, 'العَفُوّ', 'Al-Afuww', {
+      'ar': 'الذي يمحو السيئات ويعفو عنها',
+      'en': 'The Pardoner, who erases sins and forgives',
+      'de': 'Der Vergebende, der Sünden tilgt und verzeiht',
+      'tr': 'Kötülükleri silen ve affeden',
+    }),
+    AsmaName(83, 'الرَّؤُوف', 'Ar-Ra\'uf', {
+      'ar': 'شديد الرحمة بعباده',
+      'en': 'The Most Kind, intensely merciful to His servants',
+      'de': 'Der Gütige, äußerst barmherzig zu Seinen Dienern',
+      'tr': 'Kullarına karşı çok şefkatli olan',
+    }),
+    AsmaName(84, 'مَالِكُ الْمُلْك', 'Malik-ul-Mulk', {
+      'ar': 'المتصرف في الملك كله بلا منازع',
+      'en': 'The Owner of All Sovereignty, unrivaled',
+      'de': 'Der Herr der Herrschaft, unangefochten über alle Macht',
+      'tr': 'Bütün mülkü tasarrufunda bulunduran, mülkün sahibi',
+    }),
+    AsmaName(85, 'ذُوالْجَلَالِ وَالإكْرَام', 'Dhul-Jalali wal-Ikram', {
+      'ar': 'صاحب العظمة والجلال والإكرام',
+      'en': 'Lord of Majesty and Generosity',
+      'de': 'Herr der Erhabenheit und Großzügigkeit',
+      'tr': 'Celal ve ikram sahibi',
+    }),
+    AsmaName(86, 'الْمُقْسِط', 'Al-Muqsit', {
+      'ar': 'العادل في حكمه',
+      'en': 'The Equitable, just in His judgment',
+      'de': 'Der Ausgeglichene, gerecht in Seinem Urteil',
+      'tr': 'Hükmünde adaletli olan',
+    }),
+    AsmaName(87, 'الْجَامِع', 'Al-Jami\'', {
+      'ar': 'الذي يجمع الخلائق ليوم الحساب',
+      'en': 'The Gatherer, who assembles creation for the Day of Reckoning',
+      'de': 'Der Versammler, der die Schöpfung für den Tag der Abrechnung zusammenbringt',
+      'tr': 'Yaratılmışları hesap günü için toplayan',
+    }),
+    AsmaName(88, 'الْغَنِيّ', 'Al-Ghani', {
+      'ar': 'الغني عن كل شيء',
+      'en': 'The Self-Sufficient, in need of nothing',
+      'de': 'Der Unabhängige, der nichts benötigt',
+      'tr': 'Hiçbir şeye muhtaç olmayan zengin',
+    }),
+    AsmaName(89, 'الْمُغْنِي', 'Al-Mughni', {
+      'ar': 'الذي يغني من يشاء من عباده',
+      'en': 'The Enricher, who grants sufficiency to whom He wills',
+      'de': 'Der Bereicherer, der bereichert, wen Er will',
+      'tr': 'Dilediği kulunu zengin kılan',
+    }),
+    AsmaName(90, 'اَلْمَانِع', 'Al-Mani\'', {
+      'ar': 'الذي يمنع ما يشاء لحكمة',
+      'en': 'The Preventer, who withholds by wisdom what He wills',
+      'de': 'Der Verweigerer, der aus Weisheit verhindert, was Er will',
+      'tr': 'Hikmetiyle dilediğini engelleyen',
+    }),
+    AsmaName(91, 'الضَّار', 'Ad-Darr', {
+      'ar': 'الذي يقدّر الضر بحكمته',
+      'en': 'The Distresser, who ordains harm by His wisdom',
+      'de': 'Der Schadenbringer, der Schaden aus Weisheit bestimmt',
+      'tr': 'Hikmetiyle zararı takdir eden',
+    }),
+    AsmaName(92, 'النَّافِع', 'An-Nafi\'', {
+      'ar': 'الذي يقدّر النفع بحكمته',
+      'en': 'The Benefactor, who ordains benefit by His wisdom',
+      'de': 'Der Nutzenbringer, der Nutzen aus Weisheit bestimmt',
+      'tr': 'Hikmetiyle faydayı takdir eden',
+    }),
+    AsmaName(93, 'النُّور', 'An-Nur', {
+      'ar': 'المنوّر لقلوب أوليائه',
+      'en': 'The Light, illuminating the hearts of those close to Him',
+      'de': 'Das Licht, das die Herzen Seiner Nahestehenden erleuchtet',
+      'tr': 'Dostlarının kalplerini nurlandıran',
+    }),
+    AsmaName(94, 'الْهَادِي', 'Al-Hadi', {
+      'ar': 'الذي يهدي من يشاء إلى الحق',
+      'en': 'The Guide, who leads whom He wills to the truth',
+      'de': 'Der Führer, der zur Wahrheit leitet, wen Er will',
+      'tr': 'Dilediğini hakka ileten',
+    }),
+    AsmaName(95, 'الْبَدِيع', 'Al-Badi\'', {
+      'ar': 'الذي أوجد الخلق على غير مثال سابق',
+      'en': 'The Incomparable Originator, creating without precedent',
+      'de': 'Der Unvergleichliche Schöpfer, der ohne Vorbild erschafft',
+      'tr': 'Yaratmayı örneksiz gerçekleştiren',
+    }),
+    AsmaName(96, 'اَلْبَاقِي', 'Al-Baqi', {
+      'ar': 'الدائم الذي لا يفنى',
+      'en': 'The Everlasting, who never ceases to exist',
+      'de': 'Der Immerwährende, der niemals vergeht',
+      'tr': 'Sonu olmayan, ebedî bâki olan',
+    }),
+    AsmaName(97, 'الْوَارِث', 'Al-Warith', {
+      'ar': 'الباقي بعد فناء الخلق',
+      'en': 'The Inheritor, who remains after creation perishes',
+      'de': 'Der Erbe, der bleibt, wenn die Schöpfung vergeht',
+      'tr': 'Yaratılmışlar yok olduktan sonra baki kalan Varis',
+    }),
+    AsmaName(98, 'الرَّشِيد', 'Ar-Rashid', {
+      'ar': 'الذي يرشد إلى الصواب',
+      'en': 'The Guide to Right Conduct',
+      'de': 'Der Rechtleiter zum richtigen Weg',
+      'tr': 'Doğruya yönelten, irşad eden',
+    }),
+    AsmaName(99, 'الصَّبُور', 'As-Sabur', {
+      'ar': 'الذي لا يعاجل العصاة بالعقوبة',
+      'en': 'The Most Patient, unhurried in punishing wrongdoers',
+      'de': 'Der Geduldige, der Übeltäter nicht vorschnell bestraft',
+      'tr': 'Asileri cezalandırmakta acele etmeyen, çok sabırlı olan',
+    }),
+  ];
+}
