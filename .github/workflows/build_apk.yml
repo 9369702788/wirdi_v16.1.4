@@ -1,0 +1,148 @@
+name: Build Wirdi Test APK
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  pull_request:
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build debug APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: false
+
+      - name: Flutter doctor
+        run: flutter doctor -v
+
+      - name: Generate Android platform folder
+        run: flutter create --platforms=android --org com.wirdi --project-name wirdi .
+
+      - name: Patch Android permissions
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path("android/app/src/main/AndroidManifest.xml")
+          text = path.read_text()
+
+          permissions = """
+              <uses-permission android:name="android.permission.INTERNET" />
+              <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+              <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+              <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+              <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+              <uses-permission android:name="android.permission.VIBRATE" />
+              <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+              <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+              <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+          """
+
+          if "android.permission.INTERNET" not in text:
+              text = text.replace(
+                  '<manifest xmlns:android="http://schemas.android.com/apk/res/android">',
+                  '<manifest xmlns:android="http://schemas.android.com/apk/res/android">\\n' + permissions,
+              )
+
+          queries_block = """
+              <queries>
+                  <intent>
+                      <action android:name="android.intent.action.VIEW" />
+                      <data android:scheme="https" />
+                  </intent>
+                  <intent>
+                      <action android:name="android.intent.action.VIEW" />
+                      <data android:scheme="geo" />
+                  </intent>
+              </queries>
+          """
+
+          if "<queries>" not in text:
+              text = text.replace("</manifest>", queries_block + "</manifest>")
+
+          path.write_text(text)
+          PY
+
+      - name: Patch Android Gradle for core library desugaring
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          # flutter_local_notifications requires Android core library
+          # desugaring to be enabled in the app module. `flutter create`
+          # emits Kotlin DSL (build.gradle.kts) on current stable, but
+          # this handles the older Groovy format too in case that ever
+          # changes upstream.
+          kts_path = Path("android/app/build.gradle.kts")
+          groovy_path = Path("android/app/build.gradle")
+          path = kts_path if kts_path.exists() else groovy_path
+          text = path.read_text()
+          is_kts = path.suffix == ".kts"
+
+          if "isCoreLibraryDesugaringEnabled" not in text and "coreLibraryDesugaringEnabled" not in text:
+              flag_line = (
+                  "        isCoreLibraryDesugaringEnabled = true\n"
+                  if is_kts
+                  else "        coreLibraryDesugaringEnabled true\n"
+              )
+              text = text.replace("compileOptions {\n", "compileOptions {\n" + flag_line, 1)
+
+          if "coreLibraryDesugaring(" not in text and "coreLibraryDesugaring " not in text:
+              dep_line = (
+                  '    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")\n'
+                  if is_kts
+                  else "    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'\n"
+              )
+              if "\ndependencies {" in text:
+                  text = text.replace("\ndependencies {", "\ndependencies {\n" + dep_line, 1)
+              else:
+                  text += "\ndependencies {\n" + dep_line + "}\n"
+
+          path.write_text(text)
+          PY
+
+      - name: Clear Flutter Cache
+        run: |
+          flutter pub cache clean --force || true
+
+      - name: Remove Old Lock File
+        run: |
+          rm -f pubspec.lock
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Show Dependencies
+        run: flutter pub deps
+
+      - name: Analyze
+        run: flutter analyze || true
+
+      - name: Build debug APK
+        run: flutter build apk --debug
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wirdi-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
